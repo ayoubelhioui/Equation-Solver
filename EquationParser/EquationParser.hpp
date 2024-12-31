@@ -4,7 +4,9 @@
 
 #include <string>
 #include <map>
+#include <sstream>
 #include <iostream>
+#include <vector>
 
 
 using namespace std;
@@ -12,7 +14,8 @@ class EquationParser {
 
     public:
         EquationParser();
-        void splitEquation(const std::string& equation, std::string& leftSide, std::string& rightSide); 
+        vector<string> splitByDelimiter(const string& expression, char delimiter);
+        string trim();
     private:
 
 };
