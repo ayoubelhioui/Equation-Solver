@@ -3,30 +3,31 @@
 
 EquationParser::EquationParser() {}
 
-unordered_map<int, double> run(const string &equation) {
+unordered_map<int, double> EquationParser::run(const string &equation) {
 
-    unordered_map<int, double> result;
     string leftHandSide, rightHandSide;
-    this->equationTrimmer(leftHandSide, rightHandSide);
-    this->parseRightHandSide(rightHandSide);
-    this->parseRightHandSide(rightHandSide);
 
-    return (result);
+    this->equationTrimmer(equation, leftHandSide, rightHandSide);
+    leftHandSide = (leftHandSide[0] == '-') ? "0" + leftHandSide : leftHandSide;
+    rightHandSide = (rightHandSide[0] == '-') ? "0" + rightHandSide : rightHandSide;
+    this->parseSide(rightHandSide, RIGHT_SIDE);
+    this->parseSide(leftHandSide, LEFT_SIDE);
+
+    return (this->powerCoefficientMap);
 }
 
 
-double EquationParser::defineExpressionSign(string &expressionPart) {
+double EquationParser::defineExpressionSign(string &expressionPart, bool &isRightSide) {
     expressionPart = trim(expressionPart);
     if (expressionPart.empty())
-        return;
+        return 0.0;
 
     double sign = 1.0;
     if (expressionPart[0] == '-') {
         sign = -1.0;
         expressionPart = trim(expressionPart.substr(1));
     }
-    if (isRightSide)
-        sign = -sign;
+    sign = isRightSide ? -sign : sign;
     return (sign);
 }
 
@@ -34,7 +35,7 @@ double EquationParser::defineExpressionSign(string &expressionPart) {
 
 pair<int, double> EquationParser::getExpressionValues(vector<string> &elements, double &sign) {
 
-    pair<int, double> powerCoefficient(1, stod(trim(elements[0])) * sign);
+    pair<int, double> powerCoefficient(1, stod(this->trim(elements[0])) * sign);
 
     if (elements.size() > 1) {
         string element = trim(elements[1]);
@@ -42,31 +43,31 @@ pair<int, double> EquationParser::getExpressionValues(vector<string> &elements, 
             powerCoefficient.first = stoi(element.substr(2));
     }
 
-    return (powerCoefficient)
+    return (powerCoefficient);
 }
 
-void parseExpressionPart(string &expressionPart) {
-
-    double sign = this->defineExpressionSign(expressionPart);
-    vector<string> elements = split(expressionPart, MULTIPLY);
-    if (parts.empty())
+void EquationParser::parseExpressionPart(string &expressionPart, bool &isRightSide) {
+    double sign = this->defineExpressionSign(expressionPart, isRightSide);
+    vector<string> elements = this->splitByDelimiter(expressionPart, MULTIPLY);
+    if (elements.empty())
         return;
     pair<int, double> powerCoefficient = this->getExpressionValues(elements, sign);
 
     this->powerCoefficientMap.insert(powerCoefficient);
 }
 
-void parseSide(const string &equationPart, bool &isRightSide) {
-    vector<string> expressions = split(equationPart, PLUS);
+void EquationParser::parseSide(const string &equationPart, bool isRightSide) {
+    vector<string> expressions = this->splitByDelimiter(equationPart, PLUS);
     for (string expression: expressions) {
-        vector<string> expressionParts = split(expression, MINUS);
-        for (string expressionPart: expressionParts)
-            if (!expressionParts.empty()) {
-                if (j == 0)
-                    parseTerm(expressionParts);
-                else
-                    parseTerm("-" + expressionParts);
-            }
+        vector<string> expressionParts = this->splitByDelimiter(expression, MINUS);
+        for (size_t i = 0; i < expressionParts.size(); i++) {
+            string expressionPart = expressionParts[i];
+            if (expressionPart.empty())
+                continue;
+            if (i > 0)
+                expressionPart = "-" + expressionPart;
+            this->parseExpressionPart(expressionPart, isRightSide);
+        }
     }
 }
 
@@ -93,13 +94,12 @@ string EquationParser::trim(const string& str) {
 
 }
 
-void EquationParser::equationTrimmer(const string &leftHandSide, const string &rightHandSide) {
+void EquationParser::equationTrimmer(const string &equation, string &leftHandSide, string &rightHandSide) {
 
     size_t dilimiterPosition = equation.find(EQUAL);
-    if (equalPos == string::npos)
+    if (dilimiterPosition == string::npos)
         throw invalid_argument("Invalid argument: Equation should have an equal sign");
 
     leftHandSide =  trim(equation.substr(0, dilimiterPosition));
     rightHandSide = trim(equation.substr(dilimiterPosition + 1));
 }
-
