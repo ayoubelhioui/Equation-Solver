@@ -4,10 +4,11 @@
 #include <unordered_map>
 #include <iostream>
 
+using namespace std;
 class EquationSolver {
 private:
     int equationDegree;
-    std::unordered_map<int, double> equation;
+    std::unordered_map<int, double> powerCoefficientMap;
 
     void printReducedForm();
 
@@ -15,7 +16,7 @@ private:
 
 public:
 
-    EquationSolver(const std::unordered_map<int, double>& equation);
+    EquationSolver(const std::unordered_map<int, double>& powerCoefficientMap);
     void run();
 
 };;

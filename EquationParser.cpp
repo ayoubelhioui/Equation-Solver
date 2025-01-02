@@ -53,7 +53,7 @@ void EquationParser::parseExpressionPart(string &expressionPart, bool &isRightSi
         return;
     pair<int, double> powerCoefficient = this->getExpressionValues(elements, sign);
 
-    this->powerCoefficientMap.insert(powerCoefficient);
+    this->powerCoefficientMap[powerCoefficient.first] += powerCoefficient.second;
 }
 
 void EquationParser::parseSide(const string &equationPart, bool isRightSide) {
