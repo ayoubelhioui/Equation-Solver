@@ -15,7 +15,8 @@ private:
     void printSolution();
     void handleFirstDegree();
     void handleSecondDegree();
-    void sqrt(double value);
+    void solvePolynomialEquation();
+    double sqrt(double &value);
 
 public:
 

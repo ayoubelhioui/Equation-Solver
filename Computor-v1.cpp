@@ -9,6 +9,7 @@ int main(int ac, char* av[]) {
         EquationParser equationParser;
         string equation = av[1];
         unordered_map<int, double> powerCoefficientMap = equationParser.run(equation);
+
         EquationSolver equationSolver(powerCoefficientMap);
         equationSolver.run();
     }

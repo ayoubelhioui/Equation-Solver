@@ -13,8 +13,28 @@ EquationSolver::EquationSolver(const std::unordered_map<int, double>& powerCoeff
 }
 
 void EquationSolver::run() {
+    
     this->printReducedForm();
     this->printPolynomialDegree();
+    this->solvePolynomialEquation();
+
+}
+
+
+void EquationSolver::solvePolynomialEquation() {
+    if (this->equationDegree == 0) {
+        if (this->powerCoefficientMap[0] == 0)
+            cout << "All real numbers are solutions." << endl;
+        else
+            cout << "No solution." << endl;
+    }
+    else if (this->equationDegree == 1)
+        this->handleFirstDegree();
+    else if (this->equationDegree == 2)
+        this->handleSecondDegree();
+    else
+        throw invalid_argument("The polynomial degree is stricly greater than 2, I can't solve.");
+
 }
 
 void EquationSolver::printPolynomialDegree() {
@@ -48,14 +68,24 @@ void EquationSolver::handleFirstDegree() {
     cout << solution << endl;
 }
 
+double  EquationSolver::sqrt(double &value) {
 
-// double EquationSolver::calculateDiscriminant() {
+    double start = 0, end = value, epsilon = 0.0000001, med = (start + end) / 2;
 
-//     return (discriminant);
-// }
-
-void EquationSolver::sqrt(double value) {
-
+    while (end - start > epsilon) {
+        med = (start + end) / 2;
+        if (med * med > value)
+            end = med;
+        else if (med * med < value)
+            start = med;
+        else 
+        {
+            cout << "it is : " << (start + end) / 2 << endl; 
+            return (med);
+        }
+    }
+    cout << "it is : " << start + (end - start) / 2 << endl; 
+    return ((start + end) / 2);
 }
 
 void EquationSolver::handleSecondDegree() {
@@ -73,12 +103,17 @@ void EquationSolver::handleSecondDegree() {
     }
     else if (discriminant > 0) {
 
-        double firstSolution = (-b + sqrt(discriminant)) / (2 * a);
-        double secondSolution = (-b - sqrt(discriminant)) / (2 * a);
+        double firstSolution = (-b + this->sqrt(discriminant)) / (2 * a);
+        double secondSolution = (-b - this->sqrt(discriminant)) / (2 * a);
 
         cout << "Discriminant is strictly positive, the two solutions are: " << endl;
-        cout << firstSolution << endl;
         cout << secondSolution << endl;
+        cout << firstSolution << endl;
+    }
+    else {
+        cout << "Discriminant is strictly negative, the two complex solutions are:" << endl;
+        cout << (b * -1) / (2 * a) << " - i * " << this->sqrt(discriminant) / (2 * a) << endl;
+        cout << (b * -1) / (2 * a) << " + i * " << this->sqrt(discriminant) / (2 * a) << endl; 
     }
     
 }
