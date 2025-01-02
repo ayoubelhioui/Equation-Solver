@@ -11,8 +11,11 @@ private:
     std::unordered_map<int, double> powerCoefficientMap;
 
     void printReducedForm();
-
+    void printPolynomialDegree();
     void printSolution();
+    void handleFirstDegree();
+    void handleSecondDegree();
+    void sqrt(double value);
 
 public:
 
