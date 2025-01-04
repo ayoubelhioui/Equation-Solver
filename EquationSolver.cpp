@@ -20,8 +20,8 @@ void EquationSolver::run() {
 
 }
 
-
 void EquationSolver::solvePolynomialEquation() {
+
     if (this->equationDegree == 0) {
         if (this->powerCoefficientMap[0] == 0)
             cout << "All real numbers are solutions." << endl;
@@ -29,9 +29,9 @@ void EquationSolver::solvePolynomialEquation() {
             cout << "No solution." << endl;
     }
     else if (this->equationDegree == 1)
-        this->handleFirstDegree();
+        this->solveFirstDegree();
     else if (this->equationDegree == 2)
-        this->handleSecondDegree();
+        this->solveSecondDegree();
     else
         throw invalid_argument("The polynomial degree is stricly greater than 2, I can't solve.");
 
@@ -62,38 +62,37 @@ void EquationSolver::printReducedForm() {
 }
 
 
-void EquationSolver::handleFirstDegree() {
+void EquationSolver::solveFirstDegree() {
+
     cout << "The solution is:" << endl;
     double solution = (-1 * this->powerCoefficientMap[0]) / this->powerCoefficientMap[1];
     cout << solution << endl;
+
 }
 
 double  EquationSolver::sqrt(double &value) {
 
-    double start = 0, end = value, epsilon = 0.0000001, med = (start + end) / 2;
+    double start = 0, end = value, precision = 0.0000001, med = (start + end) / 2;
 
-    while (end - start > epsilon) {
+    while (end - start > precision) {
         med = (start + end) / 2;
         if (med * med > value)
             end = med;
         else if (med * med < value)
             start = med;
         else 
-        {
-            cout << "it is : " << (start + end) / 2 << endl; 
             return (med);
-        }
     }
-    cout << "it is : " << start + (end - start) / 2 << endl; 
+
     return ((start + end) / 2);
 }
 
-void EquationSolver::handleSecondDegree() {
+void EquationSolver::solveSecondDegree() {
 
     double a = this->powerCoefficientMap[equationDegree];
     double b = this->powerCoefficientMap[equationDegree - 1];
     double c = this->powerCoefficientMap[equationDegree - 2];
-    double discriminant = b * b - 4 * a * c;
+    double discriminant = (b * b) - (4 * a * c);
 
     if (discriminant == 0) {
         cout << "The solution is: ";

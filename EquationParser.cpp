@@ -47,6 +47,7 @@ pair<int, double> EquationParser::getExpressionValues(vector<string> &elements, 
 }
 
 void EquationParser::parseExpressionPart(string &expressionPart, bool &isRightSide) {
+
     double sign = this->defineExpressionSign(expressionPart, isRightSide);
     vector<string> elements = this->splitByDelimiter(expressionPart, MULTIPLY);
     if (elements.empty())
@@ -54,9 +55,11 @@ void EquationParser::parseExpressionPart(string &expressionPart, bool &isRightSi
     pair<int, double> powerCoefficient = this->getExpressionValues(elements, sign);
 
     this->powerCoefficientMap[powerCoefficient.first] += powerCoefficient.second;
+    
 }
 
 void EquationParser::parseSide(const string &equationPart, bool isRightSide) {
+
     vector<string> expressions = this->splitByDelimiter(equationPart, PLUS);
     for (string expression: expressions) {
         vector<string> expressionParts = this->splitByDelimiter(expression, MINUS);
@@ -69,6 +72,7 @@ void EquationParser::parseSide(const string &equationPart, bool isRightSide) {
             this->parseExpressionPart(expressionPart, isRightSide);
         }
     }
+
 }
 
 vector<string> EquationParser::splitByDelimiter(const string& expression, char delimiter) {

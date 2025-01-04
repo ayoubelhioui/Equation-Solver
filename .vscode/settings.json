@@ -3,6 +3,7 @@
         "stdexcept": "cpp",
         "*.tcc": "cpp",
         "unordered_map": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }

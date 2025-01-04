@@ -20,10 +20,12 @@ using namespace std;
 class EquationParser {
 
     public:
+
         EquationParser();
         unordered_map<int, double> run(const string &equation);
 
     private:
+
         unordered_map<int, double> powerCoefficientMap;
         void equationTrimmer(const string &equation, string &leftHandSide, string &rightHandSide);
         vector<string> splitByDelimiter(const string& expression, char delimiter);

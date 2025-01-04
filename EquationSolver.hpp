@@ -13,8 +13,8 @@ private:
     void printReducedForm();
     void printPolynomialDegree();
     void printSolution();
-    void handleFirstDegree();
-    void handleSecondDegree();
+    void solveFirstDegree();
+    void solveSecondDegree();
     void solvePolynomialEquation();
     double sqrt(double &value);
 
