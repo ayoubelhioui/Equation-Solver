@@ -12,7 +12,6 @@ private:
 
     void printReducedForm();
     void printPolynomialDegree();
-    void printSolution();
     void solveFirstDegree();
     void solveSecondDegree();
     void solvePolynomialEquation();

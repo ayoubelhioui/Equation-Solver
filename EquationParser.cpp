@@ -18,6 +18,7 @@ unordered_map<int, double> EquationParser::run(const string &equation) {
 
 
 double EquationParser::defineExpressionSign(string &expressionPart, bool &isRightSide) {
+
     expressionPart = trim(expressionPart);
     if (expressionPart.empty())
         return 0.0;
@@ -29,13 +30,14 @@ double EquationParser::defineExpressionSign(string &expressionPart, bool &isRigh
     }
     sign = isRightSide ? -sign : sign;
     return (sign);
+
 }
 
 
 
 pair<int, double> EquationParser::getExpressionValues(vector<string> &elements, double &sign) {
 
-    pair<int, double> powerCoefficient(1, stod(this->trim(elements[0])) * sign);
+    pair<int, double> powerCoefficient(0, stod(this->trim(elements[0])) * sign);
 
     if (elements.size() > 1) {
         string element = trim(elements[1]);
@@ -53,7 +55,6 @@ void EquationParser::parseExpressionPart(string &expressionPart, bool &isRightSi
     if (elements.empty())
         return;
     pair<int, double> powerCoefficient = this->getExpressionValues(elements, sign);
-
     this->powerCoefficientMap[powerCoefficient.first] += powerCoefficient.second;
     
 }

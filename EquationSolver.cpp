@@ -71,7 +71,8 @@ void EquationSolver::solveFirstDegree() {
 }
 
 double  EquationSolver::sqrt(double &value) {
-
+    if (value < 0)
+        return (-1);
     double start = 0, end = value, precision = 0.0000001, med = (start + end) / 2;
 
     while (end - start > precision) {
@@ -81,7 +82,10 @@ double  EquationSolver::sqrt(double &value) {
         else if (med * med < value)
             start = med;
         else 
+        {
+
             return (med);
+        }
     }
 
     return ((start + end) / 2);
@@ -95,13 +99,12 @@ void EquationSolver::solveSecondDegree() {
     double discriminant = (b * b) - (4 * a * c);
 
     if (discriminant == 0) {
-        cout << "The solution is: ";
+        cout << "The solution is: " << endl;
         double solution = (-b) / (2 * a);
         cout << "One real root: X = " << solution << endl;
 
     }
     else if (discriminant > 0) {
-
         double firstSolution = (-b + this->sqrt(discriminant)) / (2 * a);
         double secondSolution = (-b - this->sqrt(discriminant)) / (2 * a);
 
@@ -111,10 +114,9 @@ void EquationSolver::solveSecondDegree() {
     }
     else {
         cout << "Discriminant is strictly negative, the two complex solutions are:" << endl;
+        discriminant *= -1;
         cout << (b * -1) / (2 * a) << " - i * " << this->sqrt(discriminant) / (2 * a) << endl;
         cout << (b * -1) / (2 * a) << " + i * " << this->sqrt(discriminant) / (2 * a) << endl; 
     }
     
 }
-
-void EquationSolver::printSolution() {}
